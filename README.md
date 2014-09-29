@@ -11,7 +11,7 @@ And install MongoDB:
 
 	sudo apt-get install mongodb
 
-# How to debug:
+## How to debug:
 
 Run on the terminal:
 
@@ -23,7 +23,7 @@ In other terminal-tab run the script:
 
 Then, go to http://localhost:8080/debug?port=5858
 
-# How to Download the laws:
+## How to Download the laws:
 
 	wget -m -e robots=off --no-parent http://www.ceaam.net/sjc/legislacao/leis/
 
@@ -34,3 +34,7 @@ Then, go to http://localhost:8080/debug?port=5858
 	done
 
 	rm *.htm	
+
+## How to export
+
+	mongoexport --db laws --collection laws --out laws.json --journal
