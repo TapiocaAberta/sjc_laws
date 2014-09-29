@@ -1,0 +1,16 @@
+{
+      "name"        : "sjc-law-scrape",
+      "version"     : "0.0.1",
+      "description" : "Nodejs scraper, that get law informations from SJC Government.",
+      "main"        : "crawler.js",
+      "author"      : "Paulo Luan",
+      "dependencies": {
+            "mongodb": "latest",
+            "mongo-cursor-processing": "latest",
+            "jsdom"  : "latest",
+            "jquery" : "latest",
+            "glob" : "latest",
+            "colors": "latest",
+            "html-md": "latest"
+      }
+}
