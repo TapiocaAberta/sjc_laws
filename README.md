@@ -1,9 +1,13 @@
 SJC Law scraper
 ================
 
+## Dependencies:
+
 You must have to use nodejs version 0.10.x
 
-First, download the dependencies:
+	This script runs only in Linux. Unfortunately, one of the dependencies of html-md (the jsdom library), does not build well on Windows systems since it's built using "native modules" that are compiled during installation.  
+
+First of all, download the dependencies:
 	
 	npm install
 
@@ -25,15 +29,18 @@ Then, go to http://localhost:8080/debug?port=5858
 
 ## How to Download the laws:
 
-	wget -m -e robots=off --no-parent http://www.ceaam.net/sjc/legislacao/leis/
+	wget -m -e robots=off --no-parent --reject "index.html*" http://www.ceaam.net/sjc/legislacao/leis/
 
-## Convert the files to utf-8 before start the script:
+## Usefull commands on Mongodb:
 
-	for file in *; do
-	    iconv -f WINDOWS-1252 -t utf-8 "$file" -o "${file%.html}.html"
-	done
+	show dbs
+	use laws // 	switch between databases.
+	show collections
+	db.laws.findOne() // 	shows the first document saved on database
+	db.laws.find().limit(10) // 	limits the query results
+	db.laws.find({}, {date : 1}).limit(10) // 	shows only the specified fields
+	Object.keys(db.laws.findOne()) // shows the fields of a document.
 
-	rm *.htm	
 
 ## How to export
 
