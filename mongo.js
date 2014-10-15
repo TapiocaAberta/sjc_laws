@@ -28,7 +28,7 @@ function save_to_db(json, collection_name) {
                   if (err) {
                         console.log(err);
                   } else {
-                        console.log("salvo! ", json);
+                        console.log("salvo! ", json._id);
                         json = null;
                   }
 
