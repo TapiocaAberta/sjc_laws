@@ -12,11 +12,16 @@
 // You should have received a copy of the GNU General Public License
 // along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-var glob = require("glob") // used to get all the file names
 var md = require('html-md');
-var env = require('jsdom').env
 
 var Mongo = require('./mongo.js');
+
+var FileQueue = require('filequeue');
+var fq = new FileQueue(10);
+var fs = require('fs');
+var iconvlite = require('iconv-lite');
+
+var cheerio = require('cheerio');
 
 function clean(array, deleteValue) 
 {
@@ -60,7 +65,10 @@ function parseBodyToJson($)
 		}
 	});	
 
-	Mongo.save_law(resultJson);
+	//if(resultJson.author != "") {
+	//	return resultJson;
+	//}
+	return Mongo.save_law(resultJson);
 }
 
 function getDateFromLaw(str) {
@@ -99,29 +107,60 @@ function getAuthorName(text) {
 	return newText;
 }
 
-function saveToMongo(json) 
+function scanFiles() 
 {
+	//var base_dir = require('path').dirname(Object.keys(require.cache)[0]);
+	//var dir = "./leis/" + date + "/**/*.html";
+	//var dir = base_dir + "//leis//";
+
+	var dir = fs.realpathSync('leis')
+
+	fq.readdir(dir, function(err, dirs) {
+		for (var i = 0; i < dirs.length; i++) 
+		{
+			var subPath = fs.realpathSync(dir + "//" + dirs[i]);
+			readDir(subPath);
+		};
+	});
 
 }
 
-function scanFiles() 
+function readDir(dir) 
 {
-	glob("2014/**/*.html", function (er, files) {
-		for(file in files) 
-		{
-			console.log("Escaneando: ", files[file]);
-
-			env(files[file], function (errors, window) {
-				if(errors) 
-				{
-					console.log("Erro: ", errors);
-				}
-
-				var $ = require('jquery')(window);
-				parseBodyToJson($);
-			});
+	fq.readdir(dir, function(err, files) {
+		if(err) {
+		    return console.log(err);
 		}
+
+		for (var i = 0; i < files.length; i++) {
+			var filePath = fs.realpathSync(dir + "//" + files[i]);
+			readFile(filePath);
+		};
 	});
+}
+
+function readFile(filepath) {
+    var content = fs.readFileSync(filepath);
+    return parseByEnv(iconvlite.decode(content, 'cp1252'));
+}
+
+function parseByEnv(content)
+{
+	var $ = cheerio.load(content, {
+	    normalizeWhitespace: true
+	});
+
+	parseBodyToJson($);
+	
+	/*env(content, function (errors, window) {
+		if(errors) 
+		{
+			console.log("Erro: ", errors);
+		}
+
+		var $ = require('jquery')(window);
+		parseBodyToJson($);
+	});*/
 }
 
 function initialize()
