@@ -40,7 +40,7 @@ function parseBodyToJson($)
 
 	var resultJson = {
 		"completeBody"     : "",
-		"author"           : "",
+		"author"           : [],
 		"name"             : "",
 		"description"      : "",
 		"lawId"            : "",
@@ -50,7 +50,7 @@ function parseBodyToJson($)
 
 	resultJson.completeBody = completeBody;
 
-	resultJson.author = getAuthorName(completeBody);
+	resultJson.author = getAuthorNames(completeBody);
 
 	// extract other informations from the page, like the name of the project and the abstract of the law.
 	$("script").each(function() {
@@ -98,7 +98,7 @@ function getDateFromLaw(str) {
 	return dateJson;
 }
 
-function getAuthorName(text) {
+function getAuthorNames(text) {
 	var regex = /(.*autoria\s+)(.*)(\).*)/; // regex between "autoria" and ")".
 	var matchedText = text.match(regex)
 	var newText = "";
@@ -110,9 +110,21 @@ function getAuthorName(text) {
 
 	newText = newText.replace("da Vereadora ", "");
 	newText = newText.replace("do Vereador ", "");
+	newText = newText.replace("dos Vereadores ", "");
+	newText = newText.replace("da Vereador ", "");
+	newText = newText.replace("das Vereadoras ", "");
 	newText = newText.replace("do ", "");
+	newText = newText.replace("Vererador ", "");
+	newText = newText.replace("Vereadora ", ""); 
+	newText = newText.replace(/^\s+|\s+$/g,''); // trim blank spaces
+
+	var resultArray = newText.split(/,| e /); 
+
+	for (var i = 0; i < resultArray.length; i++) {
+		resultArray[i] = resultArray[i].replace(/^\s+|\s+$/g,''); // trim blank spaces
+	};
 	
-	return newText;
+	return resultArray;
 }
 
 function scanFiles() 
