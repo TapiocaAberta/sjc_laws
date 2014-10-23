@@ -47,7 +47,10 @@ Then, go to http://localhost:8080/debug?port=5858
 	
 	Object.keys(db.laws.findOne()) // shows the fields of a document.
 
+## Exports to each year as a file.
 
-## How to export
+	node data_export.js
+
+## All registers as a Mongodb dump in a unique file: 
 
 	mongoexport --db laws --collection laws --out laws.json --journal
