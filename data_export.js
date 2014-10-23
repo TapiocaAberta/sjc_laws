@@ -89,9 +89,5 @@ function createColumnNames(csvPath, entity_doc, callback) {
       return appendText(csvPath, text, callback);
 }
 
-function initialize()
-{
-    Mongo.exportAllRegistrersByYear();  
-}
-
-Mongo.initialize_db(initialize)
+// Uncomment this line to export data
+//Mongo.initialize_db(Mongo.exportAllRegistrersByYear)
