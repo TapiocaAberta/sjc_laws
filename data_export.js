@@ -1,8 +1,9 @@
 var fs = require('fs');
+var Mongo = require('./mongo.js');
 
-exports.export_to_json_file = function (json) {
-      fs.writeFile('output.json', JSON.stringify(json, null, 4), function (err) {
-            console.log('File successfully written! - Check your project directory for the output.json file');
+exports.export_to_json_file = function (json, fileName) {
+      fs.writeFile(fileName, JSON.stringify(json, null, 4), function (err) {
+            console.log('Arquivo: ', fileName, ' salvo com sucesso');
       });
 }
 
@@ -88,3 +89,9 @@ function createColumnNames(csvPath, entity_doc, callback) {
       return appendText(csvPath, text, callback);
 }
 
+function initialize()
+{
+    Mongo.exportAllRegistrersByYear();  
+}
+
+Mongo.initialize_db(initialize)
