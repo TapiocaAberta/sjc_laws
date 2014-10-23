@@ -38,7 +38,15 @@ function parseBodyToJson($)
 	var body = $('body').html()
 	var completeBody = md(body);
 
-	var resultJson = {};
+	var resultJson = {
+		"completeBody"     : "",
+		"author"           : "",
+		"name"             : "",
+		"description"      : "",
+		"lawId"            : "",
+		"date"             : {},
+		"otherInformations": []
+	};
 
 	resultJson.completeBody = completeBody;
 
