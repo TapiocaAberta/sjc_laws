@@ -122,6 +122,27 @@ function getAuthorNames(text) {
 
 	for (var i = 0; i < resultArray.length; i++) {
 		resultArray[i] = resultArray[i].replace(/^\s+|\s+$/g,''); // trim blank spaces
+
+		if(resultArray[i] == "DilermanDié") 
+		{
+			resultArray[i] = "DilermanDie";	
+			console.log(resultArray[i]);
+		} 
+
+		if(resultArray[i] == "Ângela Guadagnin" ||
+			resultArray[i] == "Dra Angela" ||
+			resultArray[i] == "Dra. Angela" ||
+			resultArray[i] == "Drª Angela")
+		{
+			resultArray[i] = "Angela Guadagnin";
+			console.log(resultArray[i]);
+		}
+
+		if(resultArray[i] == "Walter Havashi")
+		{
+			resultArray[i] = "Walter Hayashi";
+			console.log(resultArray[i]);
+		}
 	};
 	
 	return resultArray;
